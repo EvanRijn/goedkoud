@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goedkoud.nl – Koelwagen Huren</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --blue: #1565c0;
+    --lightblue: #42a5f5;
+    --iceblue: #bbdefb;
+    --orange: #f57c00;
+    --amber: #ffc107;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,62,0.97);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.5rem; height: 64px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  nav .nav-logo { height: 50px; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: var(--iceblue); text-decoration: none; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; transition: color 0.2s; }
+  nav ul a:hover { color: var(--amber); }
+  .nav-cta {
+    background: var(--orange); color: var(--white) !important;
+    padding: 0.45rem 1.2rem; border-radius: 50px;
+    font-family: 'Bangers', cursive !important; font-size: 1.05rem !important;
+    letter-spacing: 0.05em !important; transition: background 0.2s !important;
+  }
+  .nav-mobile-cta { text-decoration: none !important; border-bottom: none !important; }
+  .nav-cta:hover { background: #e65100 !important; }
+  /* Hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .hamburger span { display: block; width: 26px; height: 3px; background: var(--iceblue); border-radius: 2px; transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  @media(max-width: 680px) {
+    .hamburger { display: flex; }
+    .nav-mobile-cta { display: inline-block !important; }
+    nav ul {
+      display: none; flex-direction: column; gap: 0;
+      position: absolute; top: 64px; left: 0; right: 0;
+      background: rgba(13,27,62,0.99);
+      padding: 1rem 0; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    nav ul.open { display: flex; }
+    nav ul li a { display: block; padding: 0.85rem 2rem; font-size: 1.05rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    nav ul li:last-child { display: none; }
+  }
+
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #071029 0%, #0d1b3e 45%, #12245c 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 100px 2rem 12rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-glow {
+    position: absolute; top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(21,101,192,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -2px; left: -5%; width: 110%; height: 100px;
+    background: var(--white);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  .hero-logo {
+    width: min(460px, 88vw);
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+    animation: floatLogo 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 12px 32px rgba(66,165,245,0.35));
+  }
+  @keyframes floatLogo {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  .hero h1 {
+    font-family: 'Bangers', cursive; font-size: clamp(2.4rem, 6vw, 4.2rem);
+    color: var(--white); letter-spacing: 0.04em; margin-bottom: 1rem;
+    text-shadow: 0 4px 16px rgba(0,0,0,0.5); position: relative; z-index: 1;
+  }
+  .hero h1 span { color: var(--amber); }
+  .hero p {
+    font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--iceblue);
+    max-width: 540px; margin-bottom: 2.5rem; line-height: 1.7;
+    position: relative; z-index: 1;
+  }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    justify-content: center; margin-bottom: 2.5rem;
+    position: relative; z-index: 1;
+  }
+  .hero-badge {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--iceblue); padding: 0.4rem 1rem; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 700;
+  }
+  .hero-badge span { color: var(--amber); }
+  .btn-primary {
+    background: var(--orange); color: var(--white);
+    font-family: 'Bangers', cursive; font-size: 1.4rem;
+    letter-spacing: 0.05em; padding: 0.9rem 3rem;
+    border-radius: 50px; text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(245,124,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block; position: relative; z-index: 1;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(245,124,0,0.65); }
+
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1080px; margin: 0 auto; }
+  .section-label { font-family: 'Bangers', cursive; font-size: 0.9rem; letter-spacing: 0.14em; color: var(--lightblue); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .section-title { font-family: 'Bangers', cursive; font-size: clamp(2rem, 5vw, 3rem); color: var(--navy); letter-spacing: 0.03em; margin-bottom: 0.75rem; }
+  .section-title span { color: var(--orange); }
+  .section-sub { font-size: 1rem; color: #555; max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem; }
+
+  #voordelen { background: #f4f9ff; }
+  .usps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.5rem; }
+  .usp-card {
+    background: var(--white); border-radius: 18px; padding: 2rem 1.5rem;
+    text-align: center; border: 2px solid #dceeff;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .usp-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(21,101,192,0.13); }
+  .usp-icon { font-size: 2.8rem; margin-bottom: 1rem; }
+  .usp-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 0.5rem; }
+  .usp-card p { font-size: 0.88rem; color: #556; line-height: 1.65; }
+
+  #koelwagen { background: var(--white); }
+  .koelwagen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media(max-width:700px) { .koelwagen-grid { grid-template-columns: 1fr; } }
+  .koelwagen-grid img { width: 100%; border-radius: 20px; box-shadow: 0 14px 48px rgba(13,27,62,0.16); }
+  .specs { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .specs li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.97rem; color: #334; line-height: 1.55; }
+  .spec-icon { width: 36px; height: 36px; border-radius: 10px; background: #e8f4ff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .specs li strong { color: var(--navy); display: block; font-size: 0.97rem; }
+  .specs li small { color: #778; font-size: 0.83rem; }
+
+  #tarief { background: linear-gradient(160deg, #071029 0%, #0d1b3e 100%); }
+  #tarief .section-title { color: var(--white); }
+  .pricing-wrap { display: flex; justify-content: center; margin-top: 2.5rem; }
+  .pricing-card {
+    background: var(--white); border-radius: 24px; padding: 3rem 2.5rem;
+    max-width: 500px; width: 100%; text-align: center;
+    box-shadow: 0 16px 64px rgba(0,0,0,0.4);
+    position: relative; overflow: hidden;
+  }
+  .pricing-ribbon {
+    position: absolute; top: 22px; right: -32px;
+    background: var(--amber); color: var(--navy);
+    font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em;
+    padding: 7px 44px; transform: rotate(45deg);
+  }
+  .price-big { font-family: 'Bangers', cursive; font-size: 5rem; color: var(--navy); line-height: 1.1; }
+  .price-big .price-euro { font-size: 2.5rem; color: var(--orange); vertical-align: baseline; }
+  .price-suffix { font-size: 2.5rem; color: #aaa; vertical-align: baseline; font-family: 'Bangers', cursive; }
+  .price-desc { font-size: 1rem; color: #778; margin: 0.5rem 0 0.25rem; }
+  .price-highlight { background: #fff8e1; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.88rem; color: #7a4f00; font-weight: 700; margin: 1rem 0 1.75rem; }
+  .pricing-includes { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .pricing-includes li { display: flex; align-items: center; gap: 0.65rem; font-size: 0.95rem; color: #334; }
+  .check { width: 22px; height: 22px; border-radius: 50%; background: #e8f5e9; color: #2e7d32; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; flex-shrink: 0; }
+  .pricing-note { font-size: 0.8rem; color: #aaa; margin-top: 1rem; line-height: 1.6; }
+
+  #contact { background: #f4f9ff; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  @media(max-width:700px) { .contact-grid { grid-template-columns: 1fr; } nav ul { gap: 0.75rem; } nav ul .nav-cta { display: none; } }
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-info-item { display: flex; align-items: center; gap: 1rem; }
+  .c-icon { width: 50px; height: 50px; background: var(--navy); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .c-icon-label { font-size: 0.75rem; font-weight: 800; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+  .c-icon-value { font-size: 1rem; font-weight: 700; color: var(--navy); }
+  .c-icon-value a { color: var(--navy); text-decoration: none; }
+  .c-icon-value a:hover { color: var(--orange); }
+  .regio-box { background: var(--white); border-radius: 16px; padding: 1.25rem 1.5rem; border: 2px solid #dceeff; margin-top: 1.5rem; }
+  .regio-box h4 { font-family: 'Bangers', cursive; font-size: 1.1rem; color: var(--navy); letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+  .regio-box p { font-size: 0.88rem; color: #556; line-height: 1.65; }
+  form { background: var(--white); border-radius: 18px; padding: 2rem 1.75rem; border: 2px solid #dceeff; display: flex; flex-direction: column; gap: 1.1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:500px) { .form-row { grid-template-columns: 1fr; } }
+  form label { font-size: 0.78rem; font-weight: 800; color: var(--navy); letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+  form input, form textarea { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #cce0f5; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.95rem; color: var(--navy); background: #fafdff; transition: border-color 0.2s; outline: none; }
+  form input:focus, form textarea:focus { border-color: var(--blue); }
+  form textarea { min-height: 90px; resize: vertical; }
+  form button { background: var(--orange); color: var(--white); font-family: 'Bangers', cursive; font-size: 1.35rem; letter-spacing: 0.05em; padding: 0.85rem; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 16px rgba(245,124,0,0.35); transition: background 0.2s, transform 0.2s; }
+  form button:hover { background: #e65100; transform: translateY(-2px); }
+
+  #agenda { background: var(--white); }
+  .agenda-intro { font-size: 1rem; color: #555; max-width: 600px; line-height: 1.7; margin-bottom: 2rem; }
+  .agenda-note { display: inline-flex; align-items: center; gap: 0.5rem; background: #fff8e1; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.85rem; color: #7a4f00; font-weight: 700; margin-bottom: 1.5rem; }
+  .cal-wrap { border-radius: 16px; overflow: hidden; border: 2px solid #dceeff; box-shadow: 0 8px 32px rgba(13,27,62,0.1); }
+  .cal-wrap iframe { display: block; width: 100%; height: 500px; }
+
+  footer { background: #071029; color: #7a9cbf; text-align: center; padding: 2rem; font-size: 0.84rem; line-height: 1.8; }
+  footer a { color: var(--amber); text-decoration: none; }
+  footer strong { color: var(--iceblue); }
+</style>
+</head>
+<body>
+
+<nav>
+  <img class="nav-logo" src="logo.png" alt="Goedkoud.nl">
+  <div style="display:flex; align-items:center; gap:0.75rem;">
+    <a href="#contact" class="nav-cta nav-mobile-cta" style="display:none;">Reserveren</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="nav-menu">
+    <li><a href="#voordelen" class="nav-link">Voordelen</a></li>
+    <li><a href="#koelwagen" class="nav-link">Koelwagen</a></li>
+    <li><a href="#tarief" class="nav-link">Tarief</a></li>
+    <li><a href="#agenda" class="nav-link">Agenda</a></li>
+    <li><a href="#contact" class="nav-cta nav-link">Reserveren</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg-glow"></div>
+  <img class="hero-logo" src="logo.png" alt="Goedkoud.nl">
+  <h1>Koelwagen huren?<br><span>Wij bezorgen!</span></h1>
+  <p>Van Schagen tot Alkmaar — wij brengen de koelwagen naar jouw feest en halen hem daarna weer op. Jij wordt volledig ontzorgd.</p>
+  <div class="hero-badges">
+    <div class="hero-badge">🚚 Bezorgen &amp; ophalen inbegrepen</div>
+    <div class="hero-badge">📍 Schagen – Alkmaar</div>
+    <div class="hero-badge">💶 Alles voor <span>€100,-</span></div>
+  </div>
+  <a href="#contact" class="btn-primary">Direct reserveren →</a>
+</section>
+
+<section id="voordelen">
+  <div class="section-inner">
+    <p class="section-label">Waarom Goedkoud.nl</p>
+    <h2 class="section-title">Geen gedoe, <span>gewoon koud</span></h2>
+    <p class="section-sub">Wij regelen alles. Jij geniet van je feest terwijl wij de koelwagen op tijd bezorgen en nadien weer ophalen.</p>
+    <div class="usps">
+      <div class="usp-card"><div class="usp-icon">🚚</div><h3>Bezorgen &amp; ophalen</h3><p>Alles voor één prijs. Wij rijden naar jou toe — jij wordt volledig ontzorgd.</p></div>
+      <div class="usp-card"><div class="usp-icon">🎉</div><h3>Elk evenement</h3><p>Verjaardag, bruiloft, festival, tuinfeest of bedrijfsevenement — de koelwagen past overal.</p></div>
+      <div class="usp-card"><div class="usp-icon">❄️</div><h3>Professionele koeling</h3><p>Dranken altijd op de perfecte temperatuur, ook bij warm weer.</p></div>
+      <div class="usp-card"><div class="usp-icon">📍</div><h3>Regio Schagen–Alkmaar</h3><p>We bezorgen in de hele regio. Twijfel over jouw locatie? Gewoon even mailen!</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="koelwagen">
+  <div class="section-inner">
+    <p class="section-label">De trailer</p>
+    <h2 class="section-title">Onze <span>koelwagen</span></h2>
+    <div class="koelwagen-grid">
+      <img src="koelwagen.jpg" alt="Goedkoud.nl koelwagen">
+      <ul class="specs">
+        <li><div class="spec-icon">📦</div><div><strong>Ruime laadruimte</strong><small>Genoeg plek voor kratten, fusten en flessen</small></div></li>
+        <li><div class="spec-icon">❄️</div><div><strong>Actieve koeling</strong><small>Professioneel systeem, ook bij warm weer optimaal</small></div></li>
+        <li><div class="spec-icon">🔌</div><div><strong>Standaard 230V aansluiting</strong><small>Gewoon in een normaal stopcontact</small></div></li>
+        <li><div class="spec-icon">🚚</div><div><strong>Bezorging &amp; ophaal inbegrepen</strong><small>Jij wordt volledig ontzorgd — wij regelen het vervoer</small></div></li>
+        <li><div class="spec-icon">📍</div><div><strong>Regio Schagen – Alkmaar</strong><small>Noord-Holland, Langedijk, Heerhugowaard en omgeving</small></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="tarief">
+  <div class="section-inner" style="text-align:center;">
+    <p class="section-label" style="color:var(--lightblue);">Eerlijke prijs</p>
+    <h2 class="section-title">Alles voor <span style="color:var(--amber)">één tarief</span></h2>
+    <div class="pricing-wrap">
+      <div class="pricing-card">
+        <div class="pricing-ribbon">TOP DEAL</div>
+        <div class="price-big"><span class="price-euro">€</span>100<span class="price-suffix">,-</span></div>
+        <p class="price-desc">per dag / evenement</p>
+        <div class="price-highlight">🚚 Bezorgen én ophalen inbegrepen — geen verborgen kosten</div>
+        <ul class="pricing-includes">
+          <li><div class="check">✓</div>Koelwagen bezorgd op jouw locatie</li>
+          <li><div class="check">✓</div>Volledige dag gebruik</li>
+          <li><div class="check">✓</div>Koelwagen achteraf opgehaald</li>
+          <li><div class="check">✓</div>Professionele koeling</li>
+          <li><div class="check">✓</div>Persoonlijke service</li>
+        </ul>
+        <a href="#contact" class="btn-primary">Nu reserveren</a>
+        <p class="pricing-note">Regio Schagen – Alkmaar.<br>Buiten de regio? Neem contact op voor een afspraak.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="agenda">
+  <div class="section-inner">
+    <p class="section-label">Beschikbaarheid</p>
+    <h2 class="section-title">Check de <span>agenda</span></h2>
+    <p class="agenda-intro">Bekijk hieronder welke dagen de koelwagen al bezet is. Is jouw datum nog vrij? Stuur dan een reserveringsverzoek via het contactformulier.</p>
+    <div class="agenda-note">📅 Bezette dagen staan in de kalender — vrije dagen kun je reserveren</div>
+    <div class="cal-wrap">
+      <iframe src="https://calendar.google.com/calendar/embed?src=goedkoud%40gmail.com&ctz=Europe%2FAmsterdam&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&hl=nl" frameborder="0" scrolling="no" allow="cross-origin-isolated">
+        <p style="text-align:center; padding:2rem; color:#555;">Je browser toont de agenda niet. <a href="https://calendar.google.com/calendar/embed?src=goedkoud%40gmail.com&ctz=Europe%2FAmsterdam" target="_blank" style="color:#1565c0; font-weight:700;">Open de agenda hier →</a></p>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">Reserveren of vragen?</p>
+    <h2 class="section-title">Stuur een <span>berichtje</span></h2>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="c-icon">📧</div>
+            <div><div class="c-icon-label">E-mail</div><div class="c-icon-value"><a href="mailto:goedkoud@gmail.com">goedkoud@gmail.com</a></div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="c-icon">⏰</div>
+            <div><div class="c-icon-label">Reactietijd</div><div class="c-icon-value">Binnen 24 uur</div></div>
+          </div>
+        </div>
+        <div class="regio-box">
+          <h4>📍 Bezorggebied</h4>
+          <p>Wij bezorgen in de regio <strong>Schagen – Alkmaar</strong>, inclusief Langedijk, Sint Pancras, Heerhugowaard, Anna Paulowna en omliggende plaatsen. Niet zeker of jouw locatie erbij hoort? Gewoon even mailen!</p>
+        </div>
+      </div>
+      <form action="mail.php" method="post">
+        <div class="form-row">
+          <div><label for="naam">Naam</label><input type="text" id="naam" name="naam" placeholder="Jan de Vries" required></div>
+          <div><label for="tel">Telefoon</label><input type="tel" id="tel" name="telefoon" placeholder="06 – xxxxxxxx"></div>
+        </div>
+        <div><label for="email">E-mailadres</label><input type="email" id="email" name="email" placeholder="jan@email.nl" required></div>
+        <div><label for="datum">Gewenste datum</label><input type="date" id="datum" name="datum" required></div>
+        <div><label for="locatie">Locatie / Plaats</label><input type="text" id="locatie" name="locatie" placeholder="bijv. Langedijk"></div>
+        <div><label for="bericht">Bericht</label><textarea id="bericht" name="bericht" placeholder="Vertel iets over je evenement en eventuele vragen..."></textarea></div>
+        <button type="submit">Verstuur aanvraag 🧊</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Goedkoud.nl</strong> — Koelwagen huren in Noord-Holland</p>
+  <p>Bezorging &amp; ophalen inbegrepen · Regio Schagen – Alkmaar</p>
+  <p><a href="mailto:goedkoud@gmail.com">goedkoud@gmail.com</a></p>
+  <p style="margin-top:0.75rem;font-size:0.76rem;color:#3a5c7a;">© 2026 Goedkoud.nl</p>
+</footer>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navMenu.classList.toggle('open');
+});
+// Sluit menu na klikken op een link
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navMenu.classList.remove('open');
+  });
+});
+</script>
+
+<div id="status-banner" style="display:none; position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:999; padding:1rem 2rem; border-radius:50px; font-family:'Nunito',sans-serif; font-weight:700; font-size:1rem; box-shadow:0 8px 24px rgba(0,0,0,0.2);"></div>
+
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var status = params.get('status');
+  if (!status) return;
+  var banner = document.getElementById('status-banner');
+  if (status === 'verstuurd') {
+    banner.textContent = '✅ Aanvraag verstuurd! We nemen snel contact op.';
+    banner.style.background = '#2e7d32';
+    banner.style.color = '#fff';
+  } else {
+    banner.textContent = '❌ Er ging iets mis. Probeer het opnieuw of mail direct.';
+    banner.style.background = '#c62828';
+    banner.style.color = '#fff';
+  }
+  banner.style.display = 'block';
+  setTimeout(function() { banner.style.display = 'none'; }, 5000);
+  history.replaceState({}, '', window.location.pathname);
+})();
+</script>
+</body>
+</html>
